@@ -1,16 +1,17 @@
 <?php
-	if (isset($_POST['upload'])) {
-		if (isset($_FILES['test'])) {
+	if (isset($_POST['upload'])) { //Если форма отправлена
+		if (isset($_FILES['test'])) { //Файл передан
 			$uploaddir = 'uploads/';
 			$uploadfile = $uploaddir . basename($_FILES['test']['name']);
-			if (move_uploaded_file($_FILES['test']['tmp_name'], $uploadfile)) {
+			if (move_uploaded_file($_FILES['test']['tmp_name'], $uploadfile)) { //Удалось загрузить файл
 	    		echo '<b>Файл был успешно загружен.</b>';
+	    		include 'menu.php';
 	    		exit();
 			} else {
 	    		echo '<b>Ошибка загрузки!</b>';
 			}
 		} else {
-			echo '<b>Файл не загружен</b>';
+			echo '<b>Файл не получен</b>';
 		}
 	}
 ?>
@@ -27,5 +28,6 @@
 		<p>Файл с тестом <input type="file" name="test" accept=".json"></p>
 		<input type="submit" name="upload" value="Загрузить">
 	</form>
+	<?php include 'menu.php'; ?>
 </body>
 </html>
