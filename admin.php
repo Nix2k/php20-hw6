@@ -3,6 +3,10 @@
 		if (isset($_FILES['test'])) { //Файл передан
 			$uploaddir = 'uploads/';
 			$uploadfile = $uploaddir . basename($_FILES['test']['name']);
+			print_r $_FILES['test'];  //['type'], ['size']   проверка типа и размера
+			
+			//проверка структуры
+			
 			if (move_uploaded_file($_FILES['test']['tmp_name'], $uploadfile)) { //Удалось загрузить файл
 	    		echo '<b>Файл был успешно загружен.</b>';
 	    		include 'menu.php';
