@@ -8,8 +8,8 @@
 <body>
 
 <?php 
-	include 'list.php'; 
 	include 'menu.php';
+	include 'list.php';
 ?>
 
 </body>
