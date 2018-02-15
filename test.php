@@ -9,7 +9,7 @@
 
 <?php
 	if (isset($_GET['id'])) { //Задан номер теста
-		$id = $_GET['id'];
+		$id = htmlspecialchars($_GET['id']);
 		$tests = array_slice(scandir('uploads/'), 2);
 		$countOfTests = count($tests);			
 		if ((is_numeric($id))&&($id>=1)&&($id<=$countOfTests)) { // 0 <= номер теста <= равно количества тестов
