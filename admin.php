@@ -18,22 +18,26 @@
 				http_response_code(400);
 				die('Неверный тип файла');
 			}
-			if ($_FILES['test']['size']>2097152)
+			if ($_FILES['test']['size']>2097152) {
+				http_response_code(400);
 				die('Слишком большой файл, максимальный размер 2 МБ');
+			}
 			$jsonData = file_get_contents($_FILES['test']['tmp_name']);
-			if (!$jsonData)
+			if (!$jsonData) {
+				http_response_code(500);
 				die('Не удалось загрузить файл');
+			}
 			$test = json_decode($jsonData);
-			if ((!$test)||($test==NULL))
+			if ((!$test)||($test==NULL)){
+				http_response_code(400);
 				die('Неверный формат json файла');
+			}
 
 			//проверка структуры файла
 			foreach ($test as $qId => $question) {
-				if ((!isset($question->text))||(!isset($question->options[0][1])))
+				if ((!isset($question->text))||(!isset($question->options[0]))||(!isset($question->answers[0]))) {
+					http_response_code(400);
 					die('Неверная структура файла с тестом');
-				foreach ($question->options as $optionId => $option) {
-					if ((!isset($optionId))||(!isset($option[0]))||(!isset($option[1])))
-						die('Неверная структура файла с тестом');
 				}
 			}
 
@@ -41,10 +45,14 @@
 	    		echo '<b>Файл был успешно загружен.</b>';
 	    		echo '</body></html>';
 	    		exit();
-			} else
+			} else {
+				http_response_code(500);
 	    		die ('Ошибка загрузки');
-		} else
+			}
+		} else {
+			http_response_code(400);
 			die ('Файл не получен');
+		}
 	}
 ?>
 

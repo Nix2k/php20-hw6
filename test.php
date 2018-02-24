@@ -23,7 +23,9 @@
 					echo '<p><b>'.htmlspecialchars(strip_tags($question->text)).'</b></p>';
 					$isRight = true;
 					foreach ($question->options as $optionId => $option) {
-						if ((isset($_GET[$qId.'_'.$optionId])) xor ($option[1]==1))
+						if ((isset($_GET[$qId.'_'.$optionId])) && (array_search($optionId, $question->answers)===false))
+							$isRight = false;
+						if ((array_search($optionId, $question->answers)!==false) && (!isset($_GET[$qId.'_'.$optionId])))
 							$isRight = false;
 					}
 					if ($isRight) echo '<p style="color: green;">Верно</p>';
@@ -35,7 +37,7 @@
 				foreach ($test as $qId => $question) {
 					echo '<p><b>'.htmlspecialchars(strip_tags($question->text)).'</b></p>';
 					foreach ($question->options as $optionId => $option) {
-						echo "<input type='checkbox' name='".htmlspecialchars(strip_tags($qId))." ".htmlspecialchars(strip_tags($optionId))."' value='1'>".htmlspecialchars(strip_tags($option[0]))."<br>";
+						echo "<input type='checkbox' name='".htmlspecialchars(strip_tags($qId))." ".htmlspecialchars(strip_tags($optionId))."' value='1'>".htmlspecialchars(strip_tags($option))."<br>";
 					}
 				}
 				echo "<input type='hidden' name='id' value='$id'>";
