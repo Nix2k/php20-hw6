@@ -15,28 +15,23 @@
 			$uploaddir = 'uploads/';
 			$uploadfile = $uploaddir . basename($_FILES['test']['name']);
 			if (substr($_FILES['test']['name'], -4)!='json') {
-				http_response_code(400);
 				die('Неверный тип файла');
 			}
 			if ($_FILES['test']['size']>2097152) {
-				http_response_code(400);
 				die('Слишком большой файл, максимальный размер 2 МБ');
 			}
 			$jsonData = file_get_contents($_FILES['test']['tmp_name']);
 			if (!$jsonData) {
-				http_response_code(500);
 				die('Не удалось загрузить файл');
 			}
 			$test = json_decode($jsonData);
 			if ((!$test)||($test==NULL)){
-				http_response_code(400);
 				die('Неверный формат json файла');
 			}
 
 			//проверка структуры файла
 			foreach ($test as $qId => $question) {
 				if ((!isset($question->text))||(!isset($question->options[0]))||(!isset($question->answers[0]))) {
-					http_response_code(400);
 					die('Неверная структура файла с тестом');
 				}
 			}
@@ -46,11 +41,9 @@
 	    		echo '</body></html>';
 	    		exit();
 			} else {
-				http_response_code(500);
 	    		die ('Ошибка загрузки');
 			}
 		} else {
-			http_response_code(400);
 			die ('Файл не получен');
 		}
 	}
